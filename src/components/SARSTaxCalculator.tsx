@@ -224,6 +224,7 @@ export default function SARSTaxCalculator() {
   const [result, setResult] = useState<TaxResult | null>(null)
   const [showBrackets, setShowBrackets] = useState(false)
   const [calcKey, setCalcKey] = useState(0)
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const inputId = useId()
 
   const handleCalculate = useCallback(() => {
@@ -239,27 +240,54 @@ export default function SARSTaxCalculator() {
     if (e.key === 'Enter') handleCalculate()
   }
 
+  const handlePrint = () => window.print()
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="border-b border-[var(--border)] px-4 py-4 sm:px-8">
+      <header className="border-b border-[var(--border)] px-4 py-4 sm:px-8 no-print">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div
-              className="w-7 h-7 rounded-md flex items-center justify-center text-[#0d2a14] font-bold text-xs font-mono"
-              style={{ background: 'var(--amber)' }}
-            >
-              ZA
-            </div>
-            <span className="font-display text-lg tracking-tight">CalcZA</span>
-          </div>
+          <a href="/" className="flex items-center gap-3 no-underline">
+            <div className="w-7 h-7 rounded-md flex items-center justify-center text-[#0d2a14] font-bold text-xs font-mono" style={{ background: 'var(--amber)' }}>ZA</div>
+            <span className="font-display text-lg tracking-tight text-[var(--cream)]">CalcZA</span>
+          </a>
+
+          {/* Desktop Nav */}
           <nav className="hidden sm:flex items-center gap-6">
-            <a href="#" className="nav-link active" style={{ color: 'var(--amber-light)', borderBottomColor: 'rgba(212,162,68,0.4)' }}>Tax</a>
-            <span className="nav-link opacity-40 cursor-not-allowed" title="Coming soon">Finance</span>
-            <span className="nav-link opacity-40 cursor-not-allowed" title="Coming soon">Education</span>
+            <a href="/" className="nav-link active" style={{ color: 'var(--amber-light)', borderBottomColor: 'rgba(212,162,68,0.4)' }}>Tax</a>
+            <a href="/interest" className="nav-link">Finance</a>
+            <a href="/student-loan" className="nav-link">Education</a>
+            <a href="/faq" className="nav-link">FAQ</a>
           </nav>
+
+          {/* Mobile menu button */}
+          <button className="sm:hidden p-2 rounded-lg hover:bg-white/10" onClick={() => setMobileNavOpen(true)} aria-label="Open menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+          </button>
         </div>
       </header>
+
+      {/* Mobile Nav Overlay */}
+      {mobileNavOpen && <div className="mobile-nav-overlay no-print" onClick={() => setMobileNavOpen(false)} />}
+      <div className={`fixed top-0 right-0 h-full w-72 max-w-[85vw] z-50 transform transition-transform duration-300 no-print ${mobileNavOpen ? 'translate-x-0' : 'translate-x-full'}`} style={{ background: 'var(--forest-mid)' }}>
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-8">
+            <span className="font-display text-lg text-[var(--cream)]">Menu</span>
+            <button onClick={() => setMobileNavOpen(false)} className="p-2 rounded-lg hover:bg-white/10" aria-label="Close menu">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+            </button>
+          </div>
+          <nav className="space-y-1">
+            <a href="/" onClick={() => setMobileNavOpen(false)} className="block py-3 px-4 rounded-lg text-sm font-medium nav-link active">Tax</a>
+            <a href="/interest" onClick={() => setMobileNavOpen(false)} className="block py-3 px-4 rounded-lg text-sm font-medium nav-link">Finance</a>
+            <a href="/home-loan" onClick={() => setMobileNavOpen(false)} className="block py-3 px-4 rounded-lg text-sm font-medium nav-link">Home Loan</a>
+            <a href="/investment" onClick={() => setMobileNavOpen(false)} className="block py-3 px-4 rounded-lg text-sm font-medium nav-link">Investment</a>
+            <a href="/student-loan" onClick={() => setMobileNavOpen(false)} className="block py-3 px-4 rounded-lg text-sm font-medium nav-link">Student Loan</a>
+            <a href="/faq" onClick={() => setMobileNavOpen(false)} className="block py-3 px-4 rounded-lg text-sm font-medium nav-link">FAQ</a>
+            <a href="/about" onClick={() => setMobileNavOpen(false)} className="block py-3 px-4 rounded-lg text-sm font-medium nav-link">About</a>
+          </nav>
+        </div>
+      </div>
 
       {/* Hero */}
       <div className="px-4 sm:px-8 pt-10 pb-8">
@@ -391,6 +419,12 @@ export default function SARSTaxCalculator() {
                 Calculate Tax
               </button>
             </div>
+
+            {result && (
+              <div className="flex gap-3 no-print">
+                <button type="button" onClick={handlePrint} className="flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all" style={{ background: 'rgba(255,255,255,0.04)', border: '1.5px solid var(--border-strong)', color: 'var(--cream)' }}>Print</button>
+              </div>
+            )}
 
             {/* Tax thresholds info box */}
             <div

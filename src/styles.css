@@ -1,6 +1,5 @@
-@import "tailwindcss" source("../");
-
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap');
+@import "tailwindcss" source("../");
 
 :root {
   --forest: #0d3320;
@@ -228,6 +227,10 @@ body::after {
   color: var(--amber-light);
   border-bottom-color: rgba(212, 162, 68, 0.3);
 }
+.nav-link.active {
+  color: var(--amber-light);
+  border-bottom-color: rgba(212, 162, 68, 0.4);
+}
 
 /* Tool chip */
 .tool-chip {
@@ -251,3 +254,36 @@ body::after {
 }
 
 code { font-family: 'DM Mono', 'Courier New', monospace; }
+
+/* Mobile nav overlay */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Print styles */
+@media print {
+  body::before, body::after { display: none; }
+  .no-print { display: none !important; }
+  body { background: white; color: black; }
+}
