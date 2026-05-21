@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev --port 3000",
-    "build": "vite build",
-    "deploy": "npm run build && wrangler deploy"
+    "build": "vite build"
   },
   "dependencies": {
     "@tanstack/react-router": "1.168.22",
@@ -18,7 +17,6 @@
     "react-dom": "19.2.5"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.0.0",
     "@tailwindcss/vite": "4.2.2",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
@@ -27,7 +25,6 @@
     "tailwindcss": "4.2.2",
     "typescript": "5.9.3",
     "vite": "7.3.3",
-    "vite-tsconfig-paths": "6.1.1",
-    "wrangler": "4.93.1"
+    "vite-tsconfig-paths": "6.1.1"
   }
 }
