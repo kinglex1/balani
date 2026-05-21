@@ -8,10 +8,8 @@ const config = defineConfig({
   plugins: [
     tailwindcss(),
     netlify(),
+    tanstackStart(),
     viteReact(),
-    tanstackStart({
-      customViteReactPlugin: true,
-    }),
   ],
   resolve: {
     tsconfigPaths: true,
